@@ -104,9 +104,9 @@ SELECT category , AVG(value2) FROM example WHERE category != 'A' GROUP BY catego
 
 **Note:** WHERE statements should not refer to the aggregation result, later on we will learn to use HAVING to filter on those results.
 
-To sort each class in the ***category*** column by their average: ***value***
+To sort each class in the ***category*** column by their average ***value2***:
 ``` sql
-SELECT category , ROUND(AVG(value2),2) FROM example GROUP BY category ORDER BY AVG(value) DESC;
+SELECT category , ROUND(AVG(value2),2) FROM example GROUP BY category ORDER BY AVG(value2) DESC;
 ```
 | category | AVG(value2)                |
 |----------|----------------------------|
@@ -145,4 +145,30 @@ SELECT category, value1, ROUND(AVG(value2)) FROM example GROUP BY category, valu
 
 ## HAVING
 
+The HAVING clause allows us to filter after an aggregation has already taken place.
 
+**Note:** We’ve already seen we can filter before executing the GROUP BY, but what if we want to filter based on SUM(sales)? We can not use WHERE to filter based off of aggregate results, because those happen after a WHERE is executed.
+
+**Note:** HAVING allows us to use the aggregate result as a filter along with a GROUP BY.
+
+### **Application**
+Table Name: ***example***
+| category | value1 | value2 |
+|----------|--------|--------|
+|    A     |   1    |  114   |
+|    B     |   0    |  105   |
+|    A     |   1    |  117   |
+|    C     |   0    |  110   |
+|    C     |   1    |  101   |
+|    B     |   1    |  118   |
+|    A     |   0    |  113   |
+|    B     |   1    |  107   |
+|    C     |   0    |  116   |
+
+To learn, retrieve average "value2" excluding 'C', grouped by category, HAVING >10:
+``` sql
+SELECT category, AVG(value2) FROM example WHERE category != 'C' GROUP BY category HAVING AVG(value2) > 110;
+```
+| category | AVG(value2) |
+|----------|-------------|
+| A        | 114.67      |
