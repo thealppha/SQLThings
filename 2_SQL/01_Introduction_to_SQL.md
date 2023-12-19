@@ -18,5 +18,5 @@ PostgreSQL is a powerful, open-source relational database management system that
 Link for more detailed information: https://www.postgresql.org/
 
 <p align="center">
-  <img src="Resources/postgre.png" width="200" height="200" alt="Alt text">
+  <img src="files/postgre.png" width="200" height="200" alt="Alt text">
 </p>
