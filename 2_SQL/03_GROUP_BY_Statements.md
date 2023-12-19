@@ -3,9 +3,8 @@
 ## Aggregate Functions
 
 SQL provides a variety of aggregate functions. The main idea behind an aggregate function is to take multiple inputs and return a single output.
-https://www.postgresql.org/docs/current/functions-aggregate.html
 
-Most Common Aggregate Functions:
+Most common aggregate functions:
 * AVG() - returns average value
 * COUNT() - returns number of values
 * MAX() - returns maximum value
@@ -49,8 +48,6 @@ SELECT ROUND(AVG(age)) FROM person;
 | ROUND(AVG(age))  |
 |------------------|
 |        26        |
-
-**Note:** Aggregate functions return a single value.
 
 ## GROUP BY
 
