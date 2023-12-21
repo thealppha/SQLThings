@@ -265,3 +265,51 @@ SELECT * FROM TableA RIGHT OUTER JOIN TableB ON TableA.fname = TableB.fname;
 | null | null    | null     | 4    | David   | 789 Pine St  |
 
 ## UNION
+
+The UNION operator is used to combine the result-set of two or more SELECT statements.
+
+Basic syntax:
+```sql
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+```
+
+### Application
+Table Name: ***TableA***
+| id  | fname   | lname    |
+|-----|---------|----------|
+| 1   | John    | Doe      |
+| 2   | Alice   | Smith    |
+
+Table Name: ***TableB***
+| id  | fname   | address      |
+|-----|---------|--------------|
+| 1   | Adam    | 456 Oak St   |
+| 2   | John    | 123 Main St  |
+
+```sql
+SELECT * FROM Sales2021_Q1
+UNION
+SELECT * FROM Sales2021_Q2;
+```
+| id | fname | lname      |
+|----|-------|------------|
+| 1  | Adam  | 456 Oak St |
+| 1  | John  | Doe        |
+| 2  | Alice | Smith      |
+| 2  | John  | 123 Main St |
+
+
+```sql
+SELECT * FROM Sales2021_Q1
+UNION
+SELECT * FROM Sales2021_Q2
+ORDER BY fname;
+```
+| id | fname | lname      |
+|----|-------|------------|
+| 1  | Adam  | 456 Oak St |
+| 2  | Alice | Smith      |
+| 1  | John  | Doe        |
+| 2  | John  | 123 Main St |
