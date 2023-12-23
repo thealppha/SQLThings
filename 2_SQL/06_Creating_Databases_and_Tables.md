@@ -307,9 +307,101 @@ RETURNING job_id, job_name
 
 ## ALTER
 The ALTER clause allows for changes to an existing table structure, such as:
-* Adding,dropping,or renaming columns
+* Adding, dropping, or renaming columns
 * Changing a column’s data type
 * Set DEFAULT values for a column
 * Add CHECK constraints
 * Rename table
 
+General syntax:
+```sql
+ALTER TABLE table_name action
+```
+
+Adding columns:
+```sql
+ALTER TABLE table_name 
+ADD COLUMN new_col TYPE
+```
+
+Removing columns:
+```sql
+ALTER TABLE table_name 
+DROP COLUMN col_name
+```
+
+Alter constraints:
+```sql
+ALTER TABLE table_name 
+ALTER COLUMN col_name
+SET DEFAULT value
+```
+```sql
+ALTER TABLE table_name 
+ALTER COLUMN col_name
+DROP DEFAULT
+```
+```sql
+ALTER TABLE table_name 
+ALTER COLUMN col_name
+SET NOT NULL
+```
+```sql
+ALTER TABLE table_name 
+ALTER COLUMN col_name
+DROP NOT NULL
+```
+```sql
+ALTER TABLE table_name 
+ALTER COLUMN col_name
+ADD CONSTRAINT constraint_name
+```
+
+Renaming table:
+```sql
+ALTER TABLE table_name
+RENAME TO new_table_name
+```
+
+Renaming column:
+```sql
+ALTER TABLE table_name
+RENAME COLUMN column_name TO new_column_name
+```
+
+## DROP
+DROP allows for the complete removal of a column in a table. In PostgreSQL this will also automatically remove all of its indexes and constraints involving the column. However, it will not remove columns used in views, triggers, or stored procedures without the additional CASCADE clause.
+
+General syntax:
+```sql
+ALTER TABLE table_name
+DROP COLUMN col_name
+```
+Remove all dependencies:
+```sql
+ALTER TABLE table_name
+DROP COLUMN col_name CASCADE
+```
+Check for existence to avoid error:
+```sql
+ALTER TABLE table_name
+DROP COLUMN IF EXISTS col_name 
+```
+Drop multiple columns:
+```sql
+ALTER TABLE table_name
+DROP COLUMN  col_one,
+DROP COLUMN  col_two 
+```
+
+## CHECK
+The CHECK constraint allows us to create more customized constraints that adhere to a certain condition. Such as making sure all inserted integer values fall below a certain threshold.
+
+General syntax:
+```sql
+CREATE TABLE example(
+      ex_id SERIAL PRIMARY KEY,
+      age SMALLINT CHECK (age > 21),
+      parent_age SMALLINT CHECK ( parent_age > age)
+      );
+```
