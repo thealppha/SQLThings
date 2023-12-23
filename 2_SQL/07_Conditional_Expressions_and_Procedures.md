@@ -194,4 +194,99 @@ Returns 10.
 This becomes very useful in cases where a NULL value would cause an error or unwanted result.
 
 ### Application
+Table name: ***depts***
+| Name   | Department |
+|--------|------------|
+| Lauren | A          |
+| Vinton | A          |
+| Claire | B          |
 
+To calculate the ratio of department A to department B:
+```sql
+SELECT (
+SUM(CASE WHEN Department = 'A' THEN 1 ELSE 0 END) /
+SUM(CASE WHEN Department = 'B' THEN 1 ELSE 0 END) ) AS department_ratio
+FROM depts
+```
+| department_ratio |
+|------------------|
+| 2                |
+
+To delete rows whose department data is B:
+```sql
+DELETE FROM depts
+WHERE Department = 'B'
+```
+| Name   | Department |
+|--------|------------|
+| Lauren | A          |
+| Vinton | A          |
+
+To calculate the ratio between departments again:
+```sql
+SELECT (
+SUM(CASE WHEN Department = 'A' THEN 1 ELSE 0 END) /
+SUM(CASE WHEN Department = 'B' THEN 1 ELSE 0 END) ) AS department_ratio
+FROM depts
+```
+```
+ERROR: division by zero
+SQL state: 22012
+```
+
+We will use NULLIF to solve this error.
+
+```sql
+SELECT (
+SUM(CASE WHEN Department = 'A' THEN 1 ELSE 0 END) /
+NULLIF(SUM(CASE WHEN Department = 'B' THEN 1 ELSE 0 END)), 0) AS department_ratio
+FROM depts
+```
+
+NULLIF returns NULL if the total for department B is zero.
+
+| department_ratio |
+|------------------|
+| [null]           |
+
+## VIEW
+Often there are specific combinations of tables and conditions that you find yourself using quite often for a project. Instead of having to perform the same query over and over again as a starting point, you can create a VIEW to quickly see this query with a simple call. A view is a database object that is of a stored query. A view can be accessed as a virtual table in PostgreSQL. Notice that a view does not store data physically, it simply stores the query. You can also update and alter existing views.
+
+### Application
+To receive some customer related queries:
+```sql
+SELECT first_name, last_name, address FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+```
+
+To keep the previous query in the view:
+```sql
+CREATE VIEW customer_ınfo AS
+SELECT first_name, last_name, address FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+```
+
+To use view now, not the query I often use:
+```sql
+SELECT * FROM customer_info
+```
+
+To create a new view or replace an existing one with the same name if it already exists:
+```sql
+CREATE OR REPLACE VIEW customer_ınfo AS
+SELECT first_name, last_name, address, district FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+```
+
+To remove a view from the database if it exists:
+```sql
+DROP VIEW IF EXISTS customer_info
+```
+
+To change the name of the view:
+```sql
+ALTER VIEW customer_info RENAME TO c_info
+```
